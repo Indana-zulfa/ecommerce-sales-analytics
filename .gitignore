@@ -1,3 +1,4 @@
+
 # Python virtual environment
 venv/
 .venv/
@@ -12,18 +13,29 @@ __pycache__/
 # Environment variables
 .env
 
-# Raw and processed datasets
+# Raw datasets
 data/raw/*
+
+# Processed datasets
 data/processed/*
 
 # Keep folder structure
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 
+# Include processed datasets required by Streamlit dashboard
+!data/processed/orders_cleaned.csv
+!data/processed/order_items_cleaned.csv
+!data/processed/customers_cleaned.csv
+!data/processed/payments_cleaned.csv
+!data/processed/reviews_cleaned.csv
+!data/processed/products_cleaned.csv
+!data/processed/sellers_cleaned.csv
+!data/processed/category_translation_cleaned.csv
+
 # OS files
 .DS_Store
 Thumbs.db
-
 
 # VS Code settings
 .vscode/
