@@ -1,4 +1,3 @@
-
 from pathlib import Path
 
 import numpy as np
@@ -23,16 +22,18 @@ PROJECT_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = PROJECT_DIR / "data" / "processed"
 
 COLORS = {
-    "navy": "#14213D",
-    "blue": "#2563EB",
-    "teal": "#0F766E",
-    "purple": "#7C3AED",
-    "orange": "#D97706",
-    "cyan": "#0891B2",
-    "background": "#F5F7FB",
-    "text": "#334155",
-    "muted": "#64748B",
-    "border": "#E5EAF2",
+    "navy": "#0F172A",       # Slate 900
+    "blue": "#3B82F6",       # Blue 500
+    "teal": "#14B8A6",       # Teal 500
+    "purple": "#8B5CF6",     # Purple 500
+    "orange": "#F59E0B",     # Amber 500
+    "cyan": "#06B6D4",       # Cyan 500
+    "red": "#EF4444",        # Red 500
+    "background": "#F8FAFC", # Slate 50
+    "card_bg": "#FFFFFF",
+    "text": "#334155",       # Slate 700
+    "muted": "#64748B",      # Slate 500
+    "border": "#E2E8F0",     # Slate 200
 }
 
 
@@ -42,14 +43,16 @@ COLORS = {
 
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    /* Import Google Font */
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
     html, body, [class*="css"] {
-        font-family: 'Inter', sans-serif;
+        font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
+    /* Main Background */
     .stApp {
-        background-color: #F5F7FB;
+        background-color: #F8FAFC;
     }
 
     .block-container {
@@ -58,9 +61,11 @@ st.markdown("""
         padding-bottom: 3rem;
     }
 
+    /* Sidebar Styling */
     [data-testid="stSidebar"] {
-        background: #111827;
-        border-right: 1px solid #263247;
+        background: #0F172A;
+        border-right: none;
+        box-shadow: 4px 0 24px rgba(0,0,0,0.1);
     }
 
     [data-testid="stSidebar"] * {
@@ -68,103 +73,182 @@ st.markdown("""
     }
 
     [data-testid="stSidebar"] [data-baseweb="select"] > div {
-        background-color: #263247;
-        border-color: #475569;
+        background-color: #1E293B;
+        border-color: #334155;
+        border-radius: 8px;
     }
 
-    [data-testid="stSidebar"] input {
-        color: #FFFFFF !important;
+    [data-testid="stSidebar"] [data-testid="stDateInput"] > div > div {
+        background-color: #1E293B;
+        border-color: #334155;
+        border-radius: 8px;
     }
 
+    [data-testid="stSidebar"] hr {
+        border-color: #334155;
+        margin: 2rem 0;
+    }
+
+    /* Metric Cards */
     [data-testid="stMetric"] {
         background: #FFFFFF;
-        border: 1px solid #E5EAF2;
-        border-radius: 14px;
-        padding: 18px;
-        box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
+        border: 1px solid #E2E8F0;
+        border-radius: 16px;
+        padding: 20px 24px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        transition: all 0.3s ease;
+    }
+
+    [data-testid="stMetric"]:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        border-color: #CBD5E1;
     }
 
     [data-testid="stMetricLabel"] {
         color: #64748B;
         font-size: 13px;
-        font-weight: 600;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
     }
 
     [data-testid="stMetricValue"] {
-        color: #14213D;
-        font-size: 24px;
+        color: #0F172A;
+        font-size: 26px;
         font-weight: 800;
+        margin-top: 4px;
     }
 
+    /* Typography */
     h1, h2, h3 {
-        color: #14213D;
-        font-weight: 750;
+        color: #0F172A;
+        font-weight: 800;
+        letter-spacing: -0.5px;
     }
 
+    /* Hero Section */
     .hero {
-        background: linear-gradient(120deg, #14213D 0%, #1D4ED8 100%);
-        padding: 30px 34px;
-        border-radius: 18px;
+        background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%);
+        padding: 40px 45px;
+        border-radius: 20px;
         color: white;
-        margin-bottom: 25px;
-        box-shadow: 0 8px 24px rgba(30, 64, 175, 0.16);
+        margin-bottom: 30px;
+        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    /* Hero Decorative Circle */
+    .hero::after {
+        content: '';
+        position: absolute;
+        top: -50px;
+        right: -50px;
+        width: 250px;
+        height: 250px;
+        background: radial-gradient(circle, rgba(59,130,246,0.3) 0%, rgba(59,130,246,0) 70%);
+        border-radius: 50%;
     }
 
     .hero h1 {
         color: white !important;
-        font-size: 30px;
-        margin: 0 0 8px 0;
+        font-size: 34px;
+        margin: 0 0 10px 0;
+        font-weight: 800;
+        z-index: 1;
+        position: relative;
     }
 
     .hero p {
-        color: #DBEAFE !important;
-        font-size: 14px;
+        color: #93C5FD !important;
+        font-size: 16px;
         margin: 0;
+        font-weight: 500;
+        z-index: 1;
+        position: relative;
     }
 
+    /* Section Description */
     .section-description {
         color: #64748B;
-        font-size: 13px;
-        margin-top: -8px;
-        margin-bottom: 20px;
+        font-size: 14px;
+        margin-top: -10px;
+        margin-bottom: 25px;
+        font-weight: 500;
     }
 
+    /* Plotly Chart Container */
     div[data-testid="stPlotlyChart"] {
         background: #FFFFFF;
-        border: 1px solid #E5EAF2;
-        border-radius: 14px;
-        padding: 10px;
-        box-shadow: 0 3px 12px rgba(15, 23, 42, 0.035);
+        border: 1px solid #E2E8F0;
+        border-radius: 16px;
+        padding: 15px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     }
 
-    div[data-testid="stTabs"] button {
+    /* Tabs Styling */
+    div[data-testid="stTabs"] [data-baseweb="tab-list"] {
+        gap: 8px;
+        background-color: transparent;
+        padding-bottom: 0;
+    }
+
+    div[data-testid="stTabs"] [data-baseweb="tab"] {
+        background-color: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 10px;
+        padding: 10px 20px;
+        color: #64748B;
         font-weight: 600;
+        font-size: 14px;
+        transition: all 0.2s ease;
     }
 
-    hr {
-        border-color: #E2E8F0;
-        margin-top: 25px;
-        margin-bottom: 25px;
+    div[data-testid="stTabs"] [data-baseweb="tab"]:hover {
+        border-color: #CBD5E1;
+        color: #0F172A;
     }
 
+    div[data-testid="stTabs"] [aria-selected="true"] {
+        background-color: #EFF6FF;
+        border-color: #3B82F6;
+        color: #1D4ED8;
+        border-bottom: none;
+    }
+
+    div[data-testid="stTabs"] [data-baseweb="tab-highlight"] {
+        display: none;
+    }
+
+    /* Sidebar Text Styling */
     .sidebar-title {
         color: #FFFFFF;
-        font-size: 22px;
+        font-size: 24px;
         font-weight: 800;
         margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
 
     .sidebar-subtitle {
         color: #94A3B8;
         font-size: 12px;
-        margin-bottom: 28px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        margin-bottom: 32px;
+        text-transform: uppercase;
     }
 
+    /* Footer */
     .footer {
         text-align: center;
         color: #94A3B8;
-        font-size: 12px;
-        padding: 25px 0 5px 0;
+        font-size: 13px;
+        padding: 40px 0 10px 0;
+        border-top: 1px solid #E2E8F0;
+        margin-top: 40px;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -293,16 +377,16 @@ customer_orders = orders.merge(
 # ============================================================
 
 st.sidebar.markdown(
-    '<div class="sidebar-title">📊 E-Commerce Analytics</div>',
+    '<div class="sidebar-title">📊 E-Commerce</div>',
     unsafe_allow_html=True
 )
 
 st.sidebar.markdown(
-    '<div class="sidebar-subtitle">BRAZILIAN E-COMMERCE DATA</div>',
+    '<div class="sidebar-subtitle">Analytics Dashboard</div>',
     unsafe_allow_html=True
 )
 
-st.sidebar.markdown("### Dashboard Filters")
+st.sidebar.markdown("**Dashboard Filters**")
 
 valid_dates = orders["order_purchase_timestamp"].dropna()
 
@@ -397,44 +481,54 @@ def style_chart(fig, height=420):
         template="plotly_white",
         height=height,
         font=dict(
-            family="Inter, sans-serif",
+            family="Plus Jakarta Sans, sans-serif",
             color=COLORS["text"],
             size=12
         ),
         title=dict(
             font=dict(
-                size=17,
-                color=COLORS["navy"]
+                size=16,
+                color=COLORS["navy"],
+                weight="bold"
             ),
-            x=0.03,
-            xanchor="left"
+            x=0.02,
+            xanchor="left",
+            y=0.95
         ),
         margin=dict(
-            l=20,
-            r=25,
-            t=65,
-            b=35
+            l=10,
+            r=20,
+            t=60,
+            b=20
         ),
-        paper_bgcolor="#FFFFFF",
-        plot_bgcolor="#FFFFFF",
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
         legend=dict(
-            bgcolor="rgba(255,255,255,0)"
+            bgcolor="rgba(255,255,255,0)",
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1
         ),
         hoverlabel=dict(
-            bgcolor="#14213D",
-            font_color="#FFFFFF"
+            bgcolor="#0F172A",
+            font_color="#FFFFFF",
+            font_family="Plus Jakarta Sans"
         )
     )
 
     fig.update_xaxes(
         showgrid=True,
-        gridcolor="#EEF2F7",
-        zeroline=False
+        gridcolor="#F1F5F9",
+        zeroline=False,
+        tickfont=dict(color="#64748B")
     )
 
     fig.update_yaxes(
         showgrid=False,
-        zeroline=False
+        zeroline=False,
+        tickfont=dict(color="#64748B")
     )
 
     return fig
@@ -447,80 +541,38 @@ def style_chart(fig, height=420):
 st.markdown("""
 <div class="hero">
     <h1>E-Commerce Sales Analytics</h1>
-    <p>
-        Business performance, customer behavior,
-        product trends, payments, delivery, and seller insights.
-    </p>
+    <p>Business performance, customer behavior, product trends, payments, delivery, and seller insights.</p>
 </div>
 """, unsafe_allow_html=True)
 
 st.caption(
-    f"Analysis period: {start_date} — {end_date}"
+    f"📅 Analysis period: **{start_date}** — **{end_date}**"
 )
-
-st.divider()
-
 
 # ============================================================
 # 9. EXECUTIVE OVERVIEW / KPI CARDS
 # ============================================================
 
-st.header("Executive Overview")
-
-st.markdown(
-    '<div class="section-description">'
-    'Key performance indicators for the selected analysis period.'
-    '</div>',
-    unsafe_allow_html=True
-)
-
 total_sales = filtered_sales["price"].sum()
-
 total_orders = filtered_orders["order_id"].nunique()
-
 total_items = len(filtered_sales)
-
-total_customers = (
-    filtered_customers["customer_unique_id"].nunique()
-)
-
-average_order_value = (
-    total_sales / total_orders
-    if total_orders > 0
-    else 0
-)
+total_customers = (filtered_customers["customer_unique_id"].nunique())
+average_order_value = (total_sales / total_orders if total_orders > 0 else 0)
 
 k1, k2, k3, k4, k5 = st.columns(5)
 
-k1.metric(
-    "TOTAL SALES",
-    f"R$ {total_sales:,.2f}"
-)
-
-k2.metric(
-    "TOTAL ORDERS",
-    f"{total_orders:,}"
-)
-
-k3.metric(
-    "ITEMS SOLD",
-    f"{total_items:,}"
-)
-
-k4.metric(
-    "CUSTOMERS",
-    f"{total_customers:,}"
-)
-
-k5.metric(
-    "AVERAGE ORDER VALUE",
-    f"R$ {average_order_value:,.2f}"
-)
+k1.metric("TOTAL SALES", f"R$ {total_sales:,.2f}")
+k2.metric("TOTAL ORDERS", f"{total_orders:,}")
+k3.metric("ITEMS SOLD", f"{total_items:,}")
+k4.metric("CUSTOMERS", f"{total_customers:,}")
+k5.metric("AVG ORDER VALUE", f"R$ {average_order_value:,.2f}")
 
 st.caption(
-    "Sales represents recorded item prices across all order statuses "
-    "and excludes freight. It is not net or realized revenue."
+    "*Sales represents recorded item prices across all order statuses "
+    "and excludes freight. It is not net or realized revenue.*"
 )
+
+st.markdown("<br>", unsafe_allow_html=True)
 
 
 # ============================================================
@@ -529,10 +581,10 @@ st.caption(
 
 tab_overview, tab_sales, tab_customer, tab_delivery = st.tabs(
     [
-        "Executive Overview",
-        "Sales & Products",
-        "Customers & Payments",
-        "Delivery & Sellers",
+        "📈 Executive Overview",
+        "📦 Sales & Products",
+        "👥 Customers & Payments",
+        "🚚 Delivery & Sellers",
     ]
 )
 
@@ -568,7 +620,7 @@ with tab_overview:
         markers=True,
         title="Monthly Sales Trend",
         labels={
-            "month": "Month",
+            "month": "",
             "total_sales": "Sales Value (R$)"
         }
     )
@@ -576,11 +628,15 @@ with tab_overview:
     fig_monthly.update_traces(
         line=dict(
             color=COLORS["blue"],
-            width=3
+            width=3.5
         ),
-        marker=dict(size=7),
+        marker=dict(
+            size=8,
+            color="#FFFFFF",
+            line=dict(width=2, color=COLORS["blue"])
+        ),
         fill="tozeroy",
-        fillcolor="rgba(37, 99, 235, 0.08)"
+        fillcolor="rgba(59, 130, 246, 0.08)"
     )
 
     fig_monthly = style_chart(fig_monthly, 430)
@@ -588,11 +644,6 @@ with tab_overview:
     st.plotly_chart(
         fig_monthly,
         use_container_width=True
-    )
-
-    st.info(
-        "Use the tabs above to explore sales, customer, payment, "
-        "delivery, and seller performance."
     )
 
 
@@ -631,12 +682,13 @@ with tab_sales:
             title="Top 10 Product Categories by Sales",
             labels={
                 "total_sales": "Sales Value (R$)",
-                "category": "Product Category"
+                "category": ""
             }
         )
 
         fig_category.update_traces(
             marker_color=COLORS["blue"],
+            marker_line_color="rgba(0,0,0,0)",
             texttemplate="R$ %{x:,.0f}",
             textposition="outside",
             cliponaxis=False
@@ -669,18 +721,18 @@ with tab_sales:
             title="Order Status Distribution",
             labels={
                 "total_orders": "Number of Orders",
-                "status": "Order Status"
+                "status": ""
             }
         )
 
         fig_status.update_traces(
             marker_color=COLORS["teal"],
+            marker_line_color="rgba(0,0,0,0)",
             texttemplate="%{x:,.0f}",
             textposition="outside",
             cliponaxis=False
         )
 
-        # Logarithmic scale makes smaller statuses visible
         fig_status.update_xaxes(
             type="log",
             title="Number of Orders (Log Scale)"
@@ -692,11 +744,6 @@ with tab_sales:
             fig_status,
             use_container_width=True
         )
-
-    st.caption(
-        "The order status chart uses a logarithmic axis to make "
-        "low-volume order statuses easier to compare."
-    )
 
 
 # ============================================================
@@ -737,12 +784,13 @@ with tab_customer:
             title="Top 10 Customer States",
             labels={
                 "total_customers": "Customers",
-                "customer_state": "Customer State"
+                "customer_state": ""
             }
         )
 
         fig_customer.update_traces(
             marker_color=COLORS["cyan"],
+            marker_line_color="rgba(0,0,0,0)",
             texttemplate="%{x:,.0f}",
             textposition="outside",
             cliponaxis=False
@@ -778,13 +826,14 @@ with tab_customer:
             text="total_payment",
             title="Payment Methods by Transaction Value",
             labels={
-                "payment_type": "Payment Method",
+                "payment_type": "",
                 "total_payment": "Payment Value (R$)"
             }
         )
 
         fig_payment.update_traces(
             marker_color=COLORS["teal"],
+            marker_line_color="rgba(0,0,0,0)",
             texttemplate="R$ %{y:,.0f}",
             textposition="outside",
             cliponaxis=False
@@ -828,7 +877,7 @@ with tab_customer:
         customer_type,
         names="customer_type",
         values="total_customers",
-        hole=0.55,
+        hole=0.6,
         title="One-Time vs Repeat Customers",
         color="customer_type",
         color_discrete_map={
@@ -839,7 +888,8 @@ with tab_customer:
 
     fig_repeat.update_traces(
         textposition="inside",
-        textinfo="percent+label"
+        textinfo="percent+label",
+        marker=dict(line=dict(color='#FFFFFF', width=2))
     )
 
     fig_repeat = style_chart(fig_repeat, 430)
@@ -847,11 +897,6 @@ with tab_customer:
     st.plotly_chart(
         fig_repeat,
         use_container_width=True
-    )
-
-    st.caption(
-        "Repeat purchase classification is based on the number "
-        "of distinct orders per customer_unique_id within the selected period."
     )
 
 
@@ -905,18 +950,19 @@ with tab_delivery:
             delivery_summary,
             names="delivery_status",
             values="total_orders",
-            hole=0.55,
+            hole=0.6,
             title="On-Time vs Late Delivery",
             color="delivery_status",
             color_discrete_map={
                 "On-Time": COLORS["teal"],
-                "Late": "#EF4444"
+                "Late": COLORS["red"]
             }
         )
 
         fig_delivery.update_traces(
             textposition="inside",
-            textinfo="percent+label"
+            textinfo="percent+label",
+            marker=dict(line=dict(color='#FFFFFF', width=2))
         )
 
         fig_delivery = style_chart(fig_delivery, 430)
@@ -956,20 +1002,22 @@ with tab_delivery:
             text="average_score",
             title="Average Review Score by Delivery Performance",
             labels={
-                "delivery_status": "Delivery Performance",
+                "delivery_status": "",
                 "average_score": "Average Review Score"
             },
             range_y=[0, 5],
             color="delivery_status",
             color_discrete_map={
                 "On-Time": COLORS["teal"],
-                "Late": "#EF4444"
+                "Late": COLORS["red"]
             }
         )
 
         fig_review.update_traces(
             texttemplate="%{y:.2f}",
-            textposition="outside"
+            textposition="outside",
+            marker_line_color="rgba(0,0,0,0)",
+            cliponaxis=False
         )
 
         fig_review = style_chart(fig_review, 430)
@@ -992,20 +1040,21 @@ with tab_delivery:
         else 0
     )
 
+    st.markdown("<br>", unsafe_allow_html=True)
     d1, d2, d3 = st.columns(3)
 
     d1.metric(
-        "Average Actual Delivery",
+        "AVG ACTUAL DELIVERY",
         f"{average_actual_delivery:.2f} days"
     )
 
     d2.metric(
-        "Average Estimated Delivery",
+        "AVG ESTIMATED DELIVERY",
         f"{average_estimated_delivery:.2f} days"
     )
 
     d3.metric(
-        "Delivered Orders Analyzed",
+        "DELIVERED ORDERS ANALYZED",
         f"{len(delivery):,}"
     )
 
@@ -1054,12 +1103,13 @@ with tab_delivery:
             title="Top 10 Sellers by Sales Value",
             labels={
                 "total_sales": "Sales Value (R$)",
-                "seller_id": "Seller ID"
+                "seller_id": ""
             }
         )
 
         fig_seller.update_traces(
             marker_color=COLORS["purple"],
+            marker_line_color="rgba(0,0,0,0)",
             texttemplate="R$ %{x:,.0f}",
             textposition="outside",
             cliponaxis=False
@@ -1097,12 +1147,13 @@ with tab_delivery:
             title="Top 10 Seller States by Sales",
             labels={
                 "total_sales": "Sales Value (R$)",
-                "seller_state": "Seller State"
+                "seller_state": ""
             }
         )
 
         fig_seller_state.update_traces(
             marker_color=COLORS["teal"],
+            marker_line_color="rgba(0,0,0,0)",
             texttemplate="R$ %{x:,.0f}",
             textposition="outside",
             cliponaxis=False
@@ -1118,22 +1169,15 @@ with tab_delivery:
             use_container_width=True
         )
 
-    st.caption(
-        "Seller sales represent recorded item sales value, "
-        "not seller profit."
-    )
-
 
 # ============================================================
 # 11. FOOTER
 # ============================================================
 
 st.markdown("""
-<hr>
-
 <div class="footer">
-    <b>E-Commerce Sales Analytics</b><br>
+    <b>E-Commerce Sales Analytics</b> &copy; 2023<br>
     Brazilian E-Commerce Public Dataset by Olist<br>
-    Data Analytics Portfolio Project
+    <span style="color: #CBD5E1;">Data Analytics Portfolio Project</span>
 </div>
 """, unsafe_allow_html=True)
